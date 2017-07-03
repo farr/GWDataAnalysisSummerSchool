@@ -1,0 +1,121 @@
+% !TEX TS-program = pdflatexmk
+
+\documentclass[modern]{aastex61}
+
+\newcommand{\pystan}{\texttt{PyStan}}
+\newcommand{\python}{\texttt{Python}}
+\newcommand{\RRR}{\texttt{R}}
+\newcommand{\stan}{\texttt{Stan}}
+
+\begin{document}
+
+\title{Astrophysics With Gravitational Wave Detections: Data Analysis}
+\author{Will M. Farr}
+\affil{Birmingham Institute for Gravitational Wave Astrophysics and School of Physics and Astronomy, University of Birmingham}
+\email{w.farr@bham.ac.uk}
+
+\begin{abstract}
+  This series of three lectures is intended to give you an
+  introduction to the data analysis techniques used in gravitational
+  wave astrophysics and astrostatistics more generally.  
+\end{abstract}
+
+\section{Syllabus}
+
+The goal of this course is to introduce you to some of the techniques
+used in gravitational wave astrophysics and also to give you some
+practice with the \emph{implementation} of statistical analyses.  To
+that end, the ``lectures'' will hopefully be very interactive, with
+opportunities to ask questions, work with your peers to develop code,
+and see in real-time the results of your analyses.  Of course you do
+not have to participate to this degree if you do not want;
+nevertheless, I think you will get the most out of the school if you
+do.
+
+\emph{Before Monday afternoon}, please install a working \stan{}
+implemtation \citep{Stan}.  I personally favour
+\href{http://mc-stan.org}{\pystan} \citep{PyStan} on top of the
+\href{https://www.continuum.io}{Anaconda} \python{} distribution, but
+if you are more familiar with \RRR or the command line, go ahead.  If
+you are using \pystan{}, you will know your installation is working
+when you can run the ``eight schools'' example from the
+\href{https://pystan.readthedocs.io/en/latest/getting_started.html}{\pystan{}
+  manual}\footnote{For an interesting, intuitive description of
+  hierarchical modelling---which will feature in Lecture 3---see
+  \href{http://andrewgelman.com/2014/01/21/everything-need-know-bayesian-statistics-learned-eight-schools/}{here}.}.
+
+Each lecture will come with reading material; some I will ask you to
+familariase yourself with in advance, and some is just in case you are
+interested to go further than I do in the lecture.  Please have a look
+(it doesn't have to be extensive---just get familiar with the content,
+or have questions about wherever you get stuck) at the material before
+the lecture so we can discuss it straight away.
+
+The material for the course, including this document, can be found on
+\href{https://github.com/farr/GWDataAnalysisSummerSchool}{GitHub}.
+
+\subsection{Lecture 1: Monday Afternoon.  The Bayesics}
+
+It may seem simple, but this entire lecture will be concerned with the
+material in \citet{Hogg2010}.  Please familarise yourself with it
+before the lecture; we will be writing code to solve some of the
+associated problems during the lecture.  
+
+We will spend a bit of time talking about statistical notation and the
+notion of conditional versus joint distributions, and then we will
+dive in to fitting a line to data!  If you internalise all the
+discussion from \citet{Hogg2010} you will be ready to build models
+that are better than 90\% of the ``state-of-the-art'' papers on the
+arXiv.  To explore the ideas in \citet{Hogg2010}, we will use the
+modelling language \stan \citep{Stan}, so I will give a brief tutorial
+on the structure of the language (the syntax should be familiar to
+those who have programmed in \texttt{C} or similar languages before)
+and how it is optimised for describing and solving the sorts of
+statistical problems we are going to be talking about in this course.
+
+Further reading (for those interested) includes
+\href{http://dan.iel.fm/posts/fitting-a-plane/}{this blog post} by
+Daniel Foreman-Mackey, \citet{Kelly2007}, \citet{Lieu2017}, \ldots.
+
+\subsection{Lecture 2: Thursday Morning. Extracting Astrophysical
+  Information from Gravitational Waves.}
+
+This lecture will discuss the physics from
+\citet{Abbott2017BasicPhysics} and the techniques described in
+\citet{Veitch2015} for extracting information about gravitational wave
+sources.  Please familarise yourself with these references before the
+lecture.
+
+We will explore how the various parameters of a merging compact object
+system are encoded in the gravitational waveform
+\citep{Abbott2017BasicPhysics}.  We will talk about the noise sources
+in interferometric gravitational wave detectors and justify the
+likelihood function given in \citet{Veitch2015}.  We will implement
+this likelihood function in \stan{}, and use it to estimate the
+parameters of GW150914 \citep{Abbott2016GW150914} from
+\href{https://losc.ligo.org/events/GW150914/}{actual LIGO data}.
+
+For further reading, consider \citet{Abbott2016PEPaper},
+\citet{Abbott2016Wavelet}, \ldots.  
+
+\subsection{Lecture 3: Friday Afternoon.  Population Modelling.}
+
+This lecture will deal with three different topics in population
+modelling.  First, we will derive the ``fundamental likelihood'' of
+population modelling, following
+\href{http://dan.iel.fm/posts/histogram1/}{this blog post} by Dan
+Foreman-Mackey.  Then we will show how this likelihood generalises to
+a \emph{mixture} model used to infer rates of black hole mergers in
+\citet{Abbott2016Rate}; we will write some \stan{} code to infer rates
+of binary black hole mergers and apply it to real data from that
+paper.  Finally, we will discuss \emph{model selection} in a
+gravitational waves context, following \citet{Farr2017}.  Please
+familiarise yourself with these references before the lecture.
+
+For further reading, consider \citet{Abbott2016RatesSupplement},
+\citet{Foreman-Mackey2014}, \citet{Farr2015}, \citet{Loredo1995},
+\citet{Farr2011}, \ldots.
+
+\bibliography{syllabus}
+
+\end{document}
