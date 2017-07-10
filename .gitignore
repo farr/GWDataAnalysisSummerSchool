@@ -8,3 +8,4 @@
 *.log
 *.synctex.gz
 *Notes.bib
+.ipynb_checkpoints
