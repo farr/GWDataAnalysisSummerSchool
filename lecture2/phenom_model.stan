@@ -39,17 +39,18 @@ data {
   int nt;
   vector[nt] ts;
   vector[nt] h_obs;
+  real tphi;
 }
 
 parameters {
   real<lower=0> A100;
   real<lower=0> dlnAdlnf;
 
-  real<lower=0, upper=2.0*pi()> phic;
+  real<lower=0, upper=2.0*pi()> phi;
   real tc;
   
   real<lower=0> Mc;
-  real<lower=0> max_freq;
+  real<lower=100.0> max_freq;
   real<lower=0> tau;
   
   real<lower=0> sigma;
@@ -63,14 +64,14 @@ transformed parameters {
     vector[nt] fs;
 
     fs = chirp_freqs(ts, Mc, tc, max_freq);
+
     amp = chirp_amps(fs, A100, dlnAdlnf);
 
-    h_model = (1.0 - exp_rolloff(fs, 30.0, 2.0)) .* amp .* cos(phic + 2.0*pi()*fs .* (ts-tc)) .* exp_rolloff(ts, tc, tau);
+    h_model = (1.0 - exp_rolloff(fs, 30.0, 2.0)) .* amp .* cos(phi + 2.0*pi()*fs .* (ts-tphi)) .* exp_rolloff(ts, tc, tau);
   }
 }
 
 model {
-
   h_obs ~ normal(h_model, sigma);
 
   /* Priors */
@@ -78,11 +79,11 @@ model {
   dlnAdlnf ~ lognormal(0.0, 1.0);
 
   /* Flat in phi100 */
-  tc ~ normal(0.0, 0.02);
+  tc ~ normal(0.0, 0.01);
 
-  Mc ~ lognormal(log(40.0), 0.2);
+  Mc ~ lognormal(log(30.0), 0.2);
   max_freq ~ lognormal(log(250.0), 0.5);
-  tau ~ lognormal(log(5e-3), log(10.0));
+  tau ~ lognormal(log(5e-3), log(2.0));
 
   sigma ~ lognormal(0.0, 1.0);
 }
